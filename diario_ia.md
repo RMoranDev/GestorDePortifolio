@@ -19,7 +19,16 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ### O que fiz
 - Criei uma interface numerada (1. add, 2. list Projects, 3. About, 4. Quit).
 - Notei que um `break` estava dando erro dentro do `for`, realoquei para dentro do `else`.
+- Adicionei um dicionário para guardar os dados.
+- Configurei a opcão de escolha 2 que server para mostrar os dados guardados.
+- Nova chave para o dicionário `cadastros['data']`, foi usado o comando `datetime.now().strftime()` para obter automáticamente a data já formatada, melhor que deixar o usuário digitar.
+- Adicionei separações usando `print("-" * 60)` para melhorar o visual para o usuário.
+- Iniciei a refatoração do sistema utilizando `def`
+- Usei `.strip().upper()[0]` para eliminar espaços e pegar somente a primeira letra.
+- tratei erros em `def opcao_list_project()`,
 ### Desafios
 - Teve dificuldades para entender a lógica certa do `break` combinado ao `try/except`. O programa estava voltando ao menu anterior.
 ### Aprendizado
 - Aprendi que o `break` interrompe a execução e pode impedir que o tratamento de exceções seja finalizado corretamente se não for bem posicionado.
+- Melhorei o sistema para utilizar uma lista composta (list de dict). Fiquei feliz hoje por ter entendido o uso do método `.copy()`.
+- Comecei executar o meu conhecimento de funcões. Exelente saber que consegui comprender e executar o básico desta vez sem ajuda.
