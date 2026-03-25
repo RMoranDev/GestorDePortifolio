@@ -16,3 +16,10 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ## 2026-03-25
 ### Objetivo do Dia
 - Criar menu de opcões mais interativo.
+### O que fiz
+- Criei uma interface numerada (1. add, 2. list Projects, 3. About, 4. Quit).
+- Notei que um `break` estava dando erro dentro do `for`, realoquei para dentro do `else`.
+### Desafios
+- Teve dificuldades para entender a lógica certa do `break` combinado ao `try/except`. O programa estava voltando ao menu anterior.
+### Aprendizado
+- Aprendi que o `break` interrompe a execução e pode impedir que o tratamento de exceções seja finalizado corretamente se não for bem posicionado.
