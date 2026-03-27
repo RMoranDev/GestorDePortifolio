@@ -34,12 +34,8 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Comecei executar o meu conhecimento de funcões. Exelente saber que consegui comprender e executar o básico desta vez sem ajuda.
 ### 2026-03-27
 ### Objetivo do dia
-- Adiconar memória ao programa.
+- Implementar salvamento automático em JSON e organizar o histórico de commits via terminal.
 - Adicionar função _**UPDATE**_.
-### Desafios
-- Implementar um arquivo `JSON` para não perder os dados.
-- Terminar a função `opcao_list_project` ainda falta o `elif` para voltar ao menu principal.
-- Criar a função _**UPDATE**_.
 ### O que fiz
 - importei o módulo `json`.
 - importei o módulo `os` para das um plus no programa e criar automáticamente o arquivo `json`.
@@ -51,4 +47,13 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Funcão update:
   - `input()` adiconado.
   - flag sinalizadora evitar o programa escrever um erro por cada nome não encontrado.
-  - 
+- Foi criada a primeira _branch_ para proteger o código principal.
+### Dificuldades
+- Erro `cannot delete branch`: Entendi que não posso deletar a branch em que estou posicionado. Precisei dar checkout para a main antes.
+### Desafios
+- Implementar um arquivo `JSON` para não perder os dados.
+- Terminar a função `opcao_list_project` ainda falta o `elif` para voltar ao menu principal.
+- Criar a função _**UPDATE**_.
+### Aprendizado
+- Dominei o uso de commits detalhados (título e descrição) usando a flag _-m_ repetida no terminal.
+- Entendi que o arquivo JSON só é criado fisicamente no disco após a primeira execução da função de escrita.
