@@ -1,9 +1,9 @@
 # Diário de Bordo de IA - Ricardo Moran
 
 ## 2026-03-23
-### Objetivo do Dia: 
+### Objetivo do Dia
 Adiconar a estrutura `while True` e o `break` no código.
-### Desafio
+### Desafios
 Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando `QUIT`.
 ### Melhorias pessoais
 - Decidi implementar o `Try/Except` para tratar erros.
@@ -32,3 +32,23 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Aprendi que o `break` interrompe a execução e pode impedir que o tratamento de exceções seja finalizado corretamente se não for bem posicionado.
 - Melhorei o sistema para utilizar uma lista composta (list de dict). Fiquei feliz hoje por ter entendido o uso do método `.copy()`.
 - Comecei executar o meu conhecimento de funcões. Exelente saber que consegui comprender e executar o básico desta vez sem ajuda.
+### 2026-03-27
+### Objetivo do dia
+- Adiconar memória ao programa.
+- Adicionar função _**UPDATE**_.
+### Desafios
+- Implementar um arquivo `JSON` para não perder os dados.
+- Terminar a função `opcao_list_project` ainda falta o `elif` para voltar ao menu principal.
+- Criar a função _**UPDATE**_.
+### O que fiz
+- importei o módulo `json`.
+- importei o módulo `os` para das um plus no programa e criar automáticamente o arquivo `json`.
+- função salvar dados adicionada.
+- primeiro projeto piloto guardado.
+- Lembrei de usar o `elif` dentro da função `opcao_list_project` caso o usuario não deseje cadastrar um novo projeto.
+- refatorei o menu para adiconar a opção **UPDATE PROJECTS**
+- Foi adicionado o `else` ao final do `white True` principal para tratar o erro de opção inválida.
+- Funcão update:
+  - `input()` adiconado.
+  - flag sinalizadora evitar o programa escrever um erro por cada nome não encontrado.
+  - 
