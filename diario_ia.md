@@ -57,3 +57,11 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ### Aprendizado
 - Dominei o uso de commits detalhados (título e descrição) usando a flag _-m_ repetida no terminal.
 - Entendi que o arquivo JSON só é criado fisicamente no disco após a primeira execução da função de escrita.
+## 2026-04-03
+### Objetivo do Dia
+- Modularização: Transformação do bloco de carregamento de arquivos em uma função dedicada `(carregar_dados)`.
+- Refatoração do Cadastro: Movi a criação do dicionário projeto para dentro do loop for, eliminando a dependência de dicionários globais e do comando `.clear()`.
+- Implementei uma trava de segurança `(if len == 0)` nas função _Update_.
+### Aprendizado
+- Entendi a diferença entre manipular um dicionário global e criar instâncias locais dentro de uma função. Isso evita que um dado "suje" o outro.
+- Aprendi que salvar no disco `(salvar_dados)` dentro de um loop é mais seguro contra quedas de energia, mas salvar fora do loop é a boa prática de performance para não estressar o hardware.
