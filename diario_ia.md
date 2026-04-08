@@ -65,3 +65,18 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ### Aprendizado
 - Entendi a diferença entre manipular um dicionário global e criar instâncias locais dentro de uma função. Isso evita que um dado "suje" o outro.
 - Aprendi que salvar no disco `(salvar_dados)` dentro de um loop é mais seguro contra quedas de energia, mas salvar fora do loop é a boa prática de performance para não estressar o hardware.
+## 2026-04-08
+### Objetivo do dia
+- Refatorar a função de exclusão de projetos, implementar persistência de dados segura e criar uma estrutura de menu reutilizável para evitar a repetição de código (DRY - Don't Repeat Yourself).
+### O que fiz
+- Refatoração da opcao_delete: Implementação de um fluxo de confirmação robusto antes de remover dados.
+- Criação da opcao_voltar: Desenvolvimento de uma função utilitária que centraliza o input e as opções de navegação (Sair/Voltar) para ser usada por todo o sistema.
+- Tratamento de Tipos: Uso do isinstance() para garantir que o programa não tente acessar atributos de variáveis nulas (None).
+### Dificuldades
+- Sinalização entre Funções: Entender que o return de uma função secundária não encerra a função principal. A solução foi usar o valor retornado como um "sinal" para a função pai.
+- Avisos do Editor (Linter): Lidar com o erro Member 'None' does not have attribute, que foi resolvido com a validação explícita de tipo
+- Fluxo de Repetição: Organizar os loops while para que o usuário não ficasse "preso" em menus redundantes após um erro de busca.
+### Aprendizado
+- Comunicação entre Escopos: Aprendi como passar informações de volta de uma função (return) e como a função chamadora deve interpretar esse dado para decidir o próximo passo.
+- Programação Defensiva: A importância de validar se um objeto existe e se ele é do tipo esperado (dict) antes de tentar acessar suas chaves.
+- Arquitetura Modular: Percebi que isolar o visual e o input em funções separadas torna o código muito mais fácil de manter e expandir.
