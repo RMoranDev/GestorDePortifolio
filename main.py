@@ -17,7 +17,20 @@ def carregar_dados():
     return []  # senão existe o arquivo retorna uma lista vazia.
 
 
+def limpar_tela():
+    """
+Limpa o terminal de forma compatível com Windows e Linux/Mac.
+    """
+    # 'nt' é para Windows e 'posix' é para Linux e macOS.
+
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+
 def mostrar_menu():
+    limpar_tela()
     print()
     print("-=" * 30)
     print(f"{'GESTOR DE PROJETOS':^60}")
@@ -38,6 +51,8 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
                                         "\n[MÁXIMO: 10] "))
             if numero_projetos <= 0 or numero_projetos > 10:
                 print(f"ERRO! Valor inválido!.")
+                sleep(2)
+                limpar_tela()
                 continue
             else:
                 for _ in range(numero_projetos):  # Dicionário dentro do loop
@@ -49,6 +64,7 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
                     print(f"Projeto: '{projeto['nome']}' cadastrado com sucesso.")
                     lista.append(projeto)  # guarda os projetos do dicionário local na lista.
                     salvar_dados()  # chama a função e salva os dados no arquivo em cada iteração.
+                    sleep(2)
                 break
         except ValueError:  # ValueError é um tipo de erro específico.
             print(f"ERRO! Digite apenas numeros inteiros.")
@@ -60,6 +76,7 @@ def opcao_list_project(lista):  # <-- dei um nome local à lista.
         print("-" * 60)
         print("Desculpe, não foi salvo nenhum projeto.")
         while True:
+            limpar_tela()
             resposta_usuario = input("Quer adicionar um novo projeto agora? [S/N] ").strip().upper()
             if resposta_usuario in "S":
                 opcao_add(lista)
@@ -93,9 +110,15 @@ def opcao_update():
         return  # encerra a função na hora e volta para o menu.
     else:
         while True:
+            limpar_tela()
+            menu_voltar()
             print(f"{'---------- Update Projects ----------':^60}")
             nome_busqueda = input("Digite o nome do projeto: ").strip().title()
-            if not nome_busqueda:
+            if nome_busqueda == "0":
+                opcao_quit()
+            if nome_busqueda == "1":
+                return
+            if not nome_busqueda: # Nome vazio.
                 print("ERRO: O nome do projeto não pode estar vazio!")
                 continue
             localizado = False  # Evita que o erro apareça na tela toda vez que o programa teste um nome.
@@ -132,14 +155,17 @@ def opcao_delete():
         print(f"Nenhum projeto cadastrado")
         return
     while True:
-        nome_busqueda = opcao_voltar()
+        limpar_tela()
+        menu_voltar()
+        nome_busqueda = input("Digite o nome do projeto: ").strip().title()
         nome_remover = None
+        if nome_busqueda == "0":
+            opcao_quit()
         if nome_busqueda == "1":
             return
         if not nome_busqueda: # Nome vazio.
             print("ERRO: O nome do projeto não pode estar vazio!")
             continue
-
         for projeto in projetos_guardados:
             if projeto['nome'] == nome_busqueda:
                 nome_remover = projeto
@@ -158,6 +184,8 @@ def opcao_delete():
                     print("Removendo Projeto...")
                     sleep(1)
                     print(f"Projeto '{nome_remover['nome']}' removido com sucesso.")
+                    print("Voltando...")
+                    sleep(2)
                     return
                 else:
                     break
@@ -166,11 +194,11 @@ def opcao_delete():
 
 
 def opcao_about():
-    print(f"{'---------- Update Projects ----------':^60}")
-    print("-" * 60)
+    print(f"{'---------- Version 1.1 ----------':^60}")
     print("Gestor de Projetos v1.0."
           "\nAutor: Ricardo Moran Software Solution."
           "\nE-mail: ricardo.moranc@gmail.com")
+    input("\nPressione ENTER para voltar ao menu...")
 
 
 def opcao_quit():
@@ -181,16 +209,11 @@ def opcao_quit():
     sys.exit() # encerra o programa totalmente.
 
 
-def opcao_voltar():
+def menu_voltar():
     print("-" * 60)
     print("[0] sair."
           "\n[1] Voltar ao Menu principal.")
     print("-" * 60)
-    opcao = input("Digite o nome do projeto: ")
-    if opcao == "0":  # Sai do programa.
-        opcao_quit()
-    return opcao
-
 
 
 # Aqui salvo os dados no arquivo .json com o json.dump
@@ -205,6 +228,7 @@ projetos_guardados = carregar_dados() # Lista principal.
 
 # Começo do programa.
 while True:
+    limpar_tela()
     mostrar_menu()
     comando = input("Digite um comando aqui: ").lower()  # .lower() no começo para evitar repetir o código.
 
