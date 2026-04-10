@@ -1,5 +1,4 @@
-# created by virtualenv automatically
-.venv/
 .idea/
+.venv/
+dados.json
 __pycache__/
-*.pyc
