@@ -85,6 +85,10 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Refatorar o código.
 ### O que fiz
 - Adicionei proteção contra entradas vazias.
+- Refatorei para conectar as funções `buscador_projetos` e `opcao_update`.
+### Dificuldades
+- Muita dificuldade na hora de juntar a funcionamento de duas funções.
+- Muita dificuldade em conectar a função nova `buscador_projetos` com a função `opcao_update`.
 ### Aprendizado
 - Modifiquei `if len(lista) == 0:` para `if not lista` estou aprendendo usar o `not`.
 - Estou começcando esclarecer a ordem lógica de cada bloco.
