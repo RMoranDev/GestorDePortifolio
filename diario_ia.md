@@ -80,3 +80,11 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Comunicação entre Escopos: Aprendi como passar informações de volta de uma função (return) e como a função chamadora deve interpretar esse dado para decidir o próximo passo.
 - Programação Defensiva: A importância de validar se um objeto existe e se ele é do tipo esperado (dict) antes de tentar acessar suas chaves.
 - Arquitetura Modular: Percebi que isolar o visual e o input em funções separadas torna o código muito mais fácil de manter e expandir.
+## 2026-04-14
+### Objetivo do Dia
+- Refatorar o código.
+### O que fiz
+- Adicionei proteção contra entradas vazias.
+### Aprendizado
+- Modifiquei `if len(lista) == 0:` para `if not lista` estou aprendendo usar o `not`.
+- Estou começcando esclarecer a ordem lógica de cada bloco.
