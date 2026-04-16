@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 import os
 
+
 DADOS = 'dados.json'  # variavel global em maiúscula, melhor para manutenção depois.
 
 
@@ -17,21 +18,10 @@ def carregar_dados():
     return []  # senão existe o arquivo retorna uma lista vazia.
 
 
-def limpar_tela():
-    """
-Limpa o terminal de forma compatível com Windows e Linux/Mac.
-    """
-    # 'nt' é para Windows e 'posix' é para Linux e macOS.
-
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-
-
 def titulo(texto):
     largura = len(texto) + 30
     print(f"-----{texto:^{largura}}-----")
+
 
 def mostrar_menu():
     print()
@@ -46,9 +36,8 @@ def mostrar_menu():
           "\n[ 6 ] Sair")
 
 
-def buscador_projetos(lista, operacao="Buscar"):
+def buscador_projetos(lista, operacao="Buscando Projetos"):
     while True:
-        limpar_tela()
         titulo(f"{operacao}")
         print("\n[0] para cancelar.")
         nome = input("Digite o nome do projeto: ").strip().title()
@@ -58,19 +47,17 @@ def buscador_projetos(lista, operacao="Buscar"):
 
         if not nome:
             print("Desculpe. O nome não pode estar vazio.")
-            sleep(1.5)
             continue
 
         for projeto in lista:
             if projeto['nome'] == nome:
                 return projeto
-        # Auto aviso. os print depois do for só são executados depois dele.
-        print(f"\nProjeto '{nome}' não encontrado!")
-        sleep(1.5)
+        # Auto aviso. Esse print só executados depois do for.
+        print(f"\nDesculpe. Projeto '{nome}' não encontrado.")
+        print("Tente novamente.")
 
 
 def opcao_add(lista):  # <-- dei um nome local à lista.
-    limpar_tela()
     titulo('Cadastro de Projetos')
     numero_projetos = 0
     while True:
@@ -91,7 +78,6 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
                 print(f"ERRO. Digite apenas números inteiros.")
                 print("-" * 60)
 
-    limpar_tela()
     # Cadastro dos projetos.
     titulo("Cadastrando Projetos")
     for _ in range(numero_projetos):  # Dicionário dentro da função.
@@ -103,19 +89,19 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
             "status": "Não iniciado"
         }
         print(f"Projeto: '{projeto['nome']}' cadastrado com sucesso.")
+        print("-" * 60)
         lista.append(projeto)  # guarda os projetos do dicionário local na lista.
     salvar_dados()  # chama a função e salva os dados no arquivo ao final para poupar recursos.
     while True:
         try: # Trata o erro deste bloco.
             continuar = int(input("[1] Novo Cadastro"
-                  "\n[2] Voltar ao menu"
+                  "\n[2] Voltar ao menu principal"
                   "\n[3] Sair"
                     "\n>>>>>  "))
             if continuar == 1:
                 opcao_add(lista)
                 return
             elif continuar == 2:
-                limpar_tela()
                 return
             elif continuar == 3:
                 opcao_quit()
@@ -129,9 +115,8 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
 
 
 def opcao_list_project(lista):  # <-- dei um nome local à lista.
-    limpar_tela()
     titulo("Lista de Projetos")
-    if len(lista) == 0:
+    if not lista:
         print("-" * 60)
         print("Desculpe, sem projetos cadastrados.")
         while True:
@@ -145,7 +130,6 @@ def opcao_list_project(lista):  # <-- dei um nome local à lista.
                 opcao_add(lista)
                 return
             elif resposta_usuario in "N":
-                limpar_tela()
                 return
             else:
                 print("-" * 60)
@@ -157,34 +141,29 @@ def opcao_list_project(lista):  # <-- dei um nome local à lista.
         print(f"{'Data:':<10} {projeto['data']:>22}")
         print(f"{'Status:':<10} {projeto['status']:>22}")
         print("▪ " * 30)
-        print()
-    print("-" * 60)
-    titulo("Opções")
-    print()
-    print("[1] Atualizar Projeto"
-          "\n[2] Apagar Projeto"
-          "\n[3] Voltar ao menu anterior")
     while True:
+        titulo("Opções")
+        print("[1] Atualizar Projeto"
+              "\n[2] Apagar Projeto"
+              "\n[3] Voltar ao menu anterior")
         resposta_menu = input("O que deseja fazer? ").strip()
         if not resposta_menu:
             print("Desculpe este campo não pode estar vazio.")
+            print("-" * 60)
             continue
         if resposta_menu == "1":
             opcao_update(lista)
             return
         elif resposta_menu == "2":
-            opcao_delete()
+            opcao_delete(lista)
             return
         elif resposta_menu == "3":
-            limpar_tela()
             return
         else:
             print("Opção inválida.")
 
 
 def opcao_update(lista):
-    limpar_tela()
-    titulo(f"Atualizar Projetos")
     # Verificação inicial de lista vazia.
     if not lista: # Este bloco é ignorado se tiver projetos cadastrados.
         print("-" * 60)
@@ -199,7 +178,6 @@ def opcao_update(lista):
                 opcao_add(lista)
                 return
             elif resposta_usuario in "N":
-                limpar_tela()
                 return
             else:
                 print("-" * 60)
@@ -207,8 +185,7 @@ def opcao_update(lista):
 
     # Começa aqui se tiver projetos cadastrados.
     while True:
-        limpar_tela()
-        titulo(f"Atualizar Projetos")
+        titulo("Atualizar Projetos")
         print("\n[1] Atualizar status"
                 "\n[2] Adicionar histórico."
                 "\n[3] Marcar como concluído."
@@ -217,20 +194,18 @@ def opcao_update(lista):
 
         if not opcao_usuario:
             print("ERRO. Deve selecionar uma opção.")
-            print()
-            sleep(1.5)
-            limpar_tela()
-            titulo("Atualizar Projetos")
+            #titulo("Atualizar Projetos")
             continue
 
+        if not opcao_usuario in ["1", "2", "3", "4"]:
+            print("Opção invalida. Tente novamente.")
+
         if opcao_usuario == "1":
-            projeto_encontrado = buscador_projetos(lista, "Atualizar Status")  # Entra na função buscardor_projetos().
-            limpar_tela()
+            projeto_encontrado = buscador_projetos(lista)  # Entra na função buscardor_projetos().
 
             if projeto_encontrado: # Uma condicional que é executada somente se teve retorno de algo.
-                limpar_tela()
                 titulo("Atualizar Status")
-                print(f"Projeto: {projeto_encontrado['nome']}")
+                print(f"Projeto: {projeto_encontrado['nome']} encontrado.")
 
                 # Menu dentro da opção status.
                 while True:
@@ -246,70 +221,94 @@ def opcao_update(lista):
 
                     if status_mapeado == projeto_encontrado['status']:
                         print(f"O status já é '{status_mapeado}'.")
+                        print("-" * 60)
                         continue
 
                     projeto_encontrado['status'] = status_mapeado
                     salvar_dados()
                     print(f"Status atualizado com sucesso!")
-                    input("Presione ENTER para continuar...")
+                    input("Presione ENTER para voltar ao menu.")
                     break
 
         elif opcao_usuario == "2":
-            pass
+            projeto_encontrado = buscador_projetos(lista)
+            if projeto_encontrado:
+                print(f"Projeto: {projeto_encontrado['nome']} encontrado.")
+                # Menu dentro da opção histórico.
+                while True:
+                    titulo("Adicionado Notas")
+                    print("[0] Voltar ao menu anterior")
+                    print(f"Digite uma anotação")
+                    anotacao = input("")
+                    if anotacao == "0":
+                        break
+                    data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    historico = (data, anotacao, projeto_encontrado['nome'])
+                    projeto_encontrado['historico'].append(historico)
+                    salvar_dados()
+                    print(f"Projeto '{projeto_encontrado['nome']}' finalizado com sucesso!")
+                    input("Pressione ENTER para voltar ao menu.")
 
         elif opcao_usuario == "3":
             projeto_encontrado = buscador_projetos(lista, "Marcar como Concluído")
             if projeto_encontrado:
                 projeto_encontrado['concluido'] = True
                 projeto_encontrado['status'] = "Concluído"
+                # Isto "Automatiza" o histórico.
+                data = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                historico = (data, "Concluído", projeto_encontrado['nome'])
+                projeto_encontrado['historico'].append(historico)
                 salvar_dados()
                 print(f"Projeto '{projeto_encontrado['nome']}' finalizado com sucesso!")
-                input("Presione ENTER para voltar ao menu...")
+                input("Presione ENTER para voltar ao menu.")
+                continue
 
         elif opcao_usuario == "4":
-            break
-
-
-def opcao_delete():
-    if len(projetos_guardados) == 0:
-        print(f"Nenhum projeto cadastrado")
-        return
-    while True:
-        menu_voltar()
-        nome_busqueda = input("Digite o nome do projeto: ").strip().title()
-        nome_remover = None
-        if nome_busqueda == "0":
-            opcao_quit()
-        if nome_busqueda == "1":
             return
-        if not nome_busqueda: # Nome vazio.
-            print("ERRO: O nome do projeto não pode estar vazio!")
-            continue
-        for projeto in projetos_guardados:
-            if projeto['nome'] == nome_busqueda:
-                nome_remover = projeto
-                break
-        if isinstance(nome_remover, dict):
-            print(f"Projeto localizado: {nome_remover['nome']}")
+
+
+def opcao_delete(lista):
+    if not lista:
+        print("-" * 60)
+        print(f"Nenhum projeto cadastrado")
+        while True:
+            resposta_usuario = input("Quer adicionar um novo projeto agora? [S/N] ").strip().upper()
+
+            if not resposta_usuario:
+                print("Este campo não pode estar vazio.")
+                continue
+            if resposta_usuario in "S":
+                opcao_add(lista)
+                return
+            elif resposta_usuario in "N":
+                return
+            else:
+                print("-" * 60)
+                print(f"ERRO. Responda apenas S ou N.")
+
+    while True:
+        projeto_encontrado = buscador_projetos(lista) # Chama a função.
+
+        if isinstance(projeto_encontrado, dict):
+            print(f"Projeto localizado: {projeto_encontrado['nome']}")
             while True:
-                confirmacao = input("Deseja realmente excluir? [S/N] ").strip().lower()
+                titulo("Apagando Projeto")
+                confirmacao = input("\nDeseja realmente excluir? [S/N] ").strip().lower()
                 if not confirmacao in ["s", "n"]:
                     print("ERRO: OPÇÃO INVALIDA!")
                     print("TENTE NOVAMENTE!")
                     continue
                 elif confirmacao == "s":
-                    projetos_guardados.remove(nome_remover)
+                    projetos_guardados.remove(projeto_encontrado)
                     salvar_dados()
                     print("Removendo Projeto...")
                     sleep(1)
-                    print(f"Projeto '{nome_remover['nome']}' removido com sucesso.")
+                    print(f"Projeto '{projeto_encontrado['nome']}' removido com sucesso.")
                     print("Voltando...")
                     sleep(2)
                     return
                 else:
                     break
-        else:
-            print(f"ERRO: Projeto '{nome_busqueda}' não encontrado!")
 
 
 def opcao_about():
@@ -318,7 +317,6 @@ def opcao_about():
           "\nAutor: Ricardo Moran Software Solution."
           "\nE-mail: ricardo.moranc@gmail.com")
     input("\nPressione ENTER para voltar ao menu...")
-    limpar_tela()
 
 
 def opcao_quit():
@@ -327,13 +325,6 @@ def opcao_quit():
     sleep(1)
     print(f"Até logo!")
     sys.exit() # encerra o programa totalmente.
-
-
-def menu_voltar():
-    print("-" * 60)
-    print("[0] sair."
-          "\n[1] Voltar ao Menu principal.")
-    print("-" * 60)
 
 
 # Aqui salvo os dados no arquivo .json com o json.dump
@@ -359,7 +350,7 @@ while True:
     elif comando == "3":
         opcao_update(projetos_guardados)
     elif comando == "4":
-        opcao_delete()
+        opcao_delete(projetos_guardados)
     elif comando == "5":
         opcao_about()
     elif comando == "6":

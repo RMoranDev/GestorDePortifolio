@@ -12,7 +12,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Foi necessário adicionar um `while True` para complementar o `try/except` e também um `break` ao receber uma entrada correta.
 ### Aprendizado 
 - O uso do `while True` combinado ao `break` permite ao `try/except` não voltar ao loop principal.
-- Aprendí que o `break` finaliza apenas o `while` no qual esta inserido.
+- Aprendí que o `break` finaliza apenas o `while` no qual está inserido.
 ## 2026-03-25
 ### Objetivo do Dia
 - Criar menu de opcões mais interativo.
@@ -49,7 +49,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
   - flag sinalizadora evitar o programa escrever um erro por cada nome não encontrado.
 - Foi criada a primeira _branch_ para proteger o código principal.
 ### Dificuldades
-- Erro `cannot delete branch`: Entendi que não posso deletar a branch em que estou posicionado. Precisei dar checkout para a main antes.
+- Erro `cannot delete branch`: Entendi que não posso apagar a branch em que estou posicionado. Precisei dar checkout para a main antes.
 ### Desafios
 - Implementar um arquivo `JSON` para não perder os dados.
 - Terminar a função `opcao_list_project` ainda falta o `elif` para voltar ao menu principal.
@@ -92,3 +92,14 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ### Aprendizado
 - Modifiquei `if len(lista) == 0:` para `if not lista` estou aprendendo usar o `not`.
 - Estou começcando esclarecer a ordem lógica de cada bloco.
+## 2026-04-16
+### Objetivo do Dia
+- Refatorar o código.
+### O que fiz
+- Apaguei a função `limpar_tela`, percebi que teve que configurar o meu projeto no pycharm para rodar corretamente, isso não funcionaria en outro PC.
+- Identifiquei e resolvi um bug da função `Update`.
+- Arrumei a função `Delete`, faltava juntar com a função de buscador de nomes de projetos.
+- Automatização do histórico.
+### Aprendizado
+- Cada função deve fazer a sua parte.
+- A questão das tuplas não ficou clara. Teve que consultar uma IA para me explicar, entendi que JSON não tem tuplas e ele transforma as tuplas em Arrays que seria listas em Python.
