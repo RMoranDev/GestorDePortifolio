@@ -77,12 +77,27 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
             except ValueError:  # ValueError é um tipo de erro específico.
                 print(f"ERRO. Digite apenas números inteiros.")
                 print("-" * 60)
+    while True:
+        nome_projeto = input("Digite o nome do projeto: ").strip().title()
+        if not nome_projeto: # Verifica se esta vazio.
+            print("Erro: O nome não pode ser vazio.")
+            continue
+
+        existe = False
+        for p in lista: # Percorre a lista e verifica se já existe um projeto com esse nome.
+            if p['nome'] == nome_projeto:
+                existe = True
+                break
+        if existe:
+            print(f"\nERRO: O projeto '{nome_projeto}' já existe! Escolha outro nome.")
+        else:
+            break # Senao existe sai do while.
 
     # Cadastro dos projetos.
-    titulo("Cadastrando Projetos")
+
     for _ in range(numero_projetos):  # Dicionário dentro da função.
         projeto = {
-            "nome": input("Nome do projeto: ").strip().title(),
+            "nome": nome_projeto,
             "concluido": False,
             "historico": [],
             "data": datetime.now().strftime("%d/%m/%Y - %H:%M:%S"),
@@ -225,6 +240,9 @@ def opcao_update(lista):
                         continue
 
                     projeto_encontrado['status'] = status_mapeado
+                    data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    historico = (data, "Projeto Iniciado", projeto_encontrado['nome'])
+                    projeto_encontrado['historico'].append(historico)
                     salvar_dados()
                     print(f"Status atualizado com sucesso!")
                     input("Presione ENTER para voltar ao menu.")

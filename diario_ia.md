@@ -20,7 +20,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Criei uma interface numerada (1. add, 2. list Projects, 3. About, 4. Quit).
 - Notei que um `break` estava dando erro dentro do `for`, realoquei para dentro do `else`.
 - Adicionei um dicionário para guardar os dados.
-- Configurei a opcão de escolha 2 que server para mostrar os dados guardados.
+- Configurei a opção de escolha 2 que serve para mostrar os dados guardados.
 - Nova chave para o dicionário `cadastros['data']`, foi usado o comando `datetime.now().strftime()` para obter automáticamente a data já formatada, melhor que deixar o usuário digitar.
 - Adicionei separações usando `print("-" * 60)` para melhorar o visual para o usuário.
 - Iniciei a refatoração do sistema utilizando `def`
@@ -30,7 +30,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Teve dificuldades para entender a lógica certa do `break` combinado ao `try/except`. O programa estava voltando ao menu anterior.
 ### Aprendizado
 - Aprendi que o `break` interrompe a execução e pode impedir que o tratamento de exceções seja finalizado corretamente se não for bem posicionado.
-- Melhorei o sistema para utilizar uma lista composta (list de dict). Fiquei feliz hoje por ter entendido o uso do método `.copy()`.
+- Melhorei o sistema para utilizar uma lista composta (list de dict). Fiquei feliz hoje por entender o uso do método `.copy()`.
 - Comecei executar o meu conhecimento de funcões. Exelente saber que consegui comprender e executar o básico desta vez sem ajuda.
 ### 2026-03-27
 ### Objetivo do dia
@@ -38,9 +38,9 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Adicionar função _**UPDATE**_.
 ### O que fiz
 - importei o módulo `json`.
-- importei o módulo `os` para das um plus no programa e criar automáticamente o arquivo `json`.
+- importei o módulo `os` para dar um plus no programa e criar automáticamente o arquivo `json`.
 - função salvar dados adicionada.
-- primeiro projeto piloto guardado.
+- primeiro projeto-piloto guardado.
 - Lembrei de usar o `elif` dentro da função `opcao_list_project` caso o usuario não deseje cadastrar um novo projeto.
 - refatorei o menu para adiconar a opção **UPDATE PROJECTS**
 - Foi adicionado o `else` ao final do `white True` principal para tratar o erro de opção inválida.
@@ -59,18 +59,18 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Entendi que o arquivo JSON só é criado fisicamente no disco após a primeira execução da função de escrita.
 ## 2026-04-03
 ### Objetivo do Dia
-- Modularização: Transformação do bloco de carregamento de arquivos em uma função dedicada `(carregar_dados)`.
+- Modularização: Transformação do bloco de carregamento de arquivos numa função dedicada `(carregar_dados)`.
 - Refatoração do Cadastro: Movi a criação do dicionário projeto para dentro do loop for, eliminando a dependência de dicionários globais e do comando `.clear()`.
 - Implementei uma trava de segurança `(if len == 0)` nas função _Update_.
 ### Aprendizado
-- Entendi a diferença entre manipular um dicionário global e criar instâncias locais dentro de uma função. Isso evita que um dado "suje" o outro.
-- Aprendi que salvar no disco `(salvar_dados)` dentro de um loop é mais seguro contra quedas de energia, mas salvar fora do loop é a boa prática de performance para não estressar o hardware.
+- Entendi a diferença entre manipular um dicionário global e criar instâncias locais numa função. Isso evita que um dado "suje" o outro.
+- Aprendi que salvar no disco `(salvar_dados)` num loop é mais seguro contra quedas de energia, mas salvar fora do loop é uma boa prática para não estressar o hardware.
 ## 2026-04-08
 ### Objetivo do dia
 - Refatorar a função de exclusão de projetos, implementar persistência de dados segura e criar uma estrutura de menu reutilizável para evitar a repetição de código (DRY - Don't Repeat Yourself).
 ### O que fiz
-- Refatoração da opcao_delete: Implementação de um fluxo de confirmação robusto antes de remover dados.
-- Criação da opcao_voltar: Desenvolvimento de uma função utilitária que centraliza o input e as opções de navegação (Sair/Voltar) para ser usada por todo o sistema.
+- Refatoração da opcao_delete: implementação de um fluxo de confirmação robusto antes de remover dados.
+- Criação da opcao_voltar: desenvolvimento de uma função utilitária que centraliza o input e as opções de navegação (Sair/Voltar) para ser usada por todo o sistema.
 - Tratamento de Tipos: Uso do isinstance() para garantir que o programa não tente acessar atributos de variáveis nulas (None).
 ### Dificuldades
 - Sinalização entre Funções: Entender que o return de uma função secundária não encerra a função principal. A solução foi usar o valor retornado como um "sinal" para a função pai.
@@ -78,7 +78,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Fluxo de Repetição: Organizar os loops while para que o usuário não ficasse "preso" em menus redundantes após um erro de busca.
 ### Aprendizado
 - Comunicação entre Escopos: Aprendi como passar informações de volta de uma função (return) e como a função chamadora deve interpretar esse dado para decidir o próximo passo.
-- Programação Defensiva: A importância de validar se um objeto existe e se ele é do tipo esperado (dict) antes de tentar acessar suas chaves.
+- Programação Defensiva: A importância de validar se um objeto existe e se ele é do tipo esperado (dict) antes de tentar acessar as suas chaves.
 - Arquitetura Modular: Percebi que isolar o visual e o input em funções separadas torna o código muito mais fácil de manter e expandir.
 ## 2026-04-14
 ### Objetivo do Dia
@@ -102,4 +102,9 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Automatização do histórico.
 ### Aprendizado
 - Cada função deve fazer a sua parte.
-- A questão das tuplas não ficou clara. Teve que consultar uma IA para me explicar, entendi que JSON não tem tuplas e ele transforma as tuplas em Arrays que seria listas em Python.
+- A questão das tuplas não ficou clara. Teve que consultar uma IA para me explicar, entendi que arquivos JSON não tem tuplas e ele transforma as tuplas em Arrays, que seria as listas em Python.
+## 2026-04-20
+### Objetivo do Dia
+- Adicionar ao programa a capacidade de verificar antes de adicionar se já existe um nome com esse mesmo projeto.
+### O que fiz
+- Teve que criar um while antes do dicionário somente para o nome do projeto, foi a unica forma que achei de poder manipular o dicionário. 
