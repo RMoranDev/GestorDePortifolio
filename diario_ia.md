@@ -85,7 +85,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Refatorar o código.
 ### O que fiz
 - Adicionei proteção contra entradas vazias.
-- Refatorei para conectar as funções `buscador_projetos` e `opcao_update`.
+- Refatorei para conectar as funções `buscador_projetos` e `opcao_update`. Usei IA para aprender a fazer, realmente desconheço o conceito neste dia.
 ### Dificuldades
 - Muita dificuldade na hora de juntar a funcionamento de duas funções.
 - Muita dificuldade em conectar a função nova `buscador_projetos` com a função `opcao_update`.
@@ -108,3 +108,35 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Adicionar ao programa a capacidade de verificar antes de adicionar se já existe um nome com esse mesmo projeto.
 ### O que fiz
 - Teve que criar um while antes do dicionário somente para o nome do projeto, foi a unica forma que achei de poder manipular o dicionário. 
+## 2026-04-22
+### Objetivo do Dia
+- Refatorar função de listar, esta faltando adicionar o histórico.
+### O que fiz
+- formatei a lista de histórico para ficar melhor exibida na tela.
+- Eliminei a possibilidade de atualizar o status do projeto manualmente e fiz a automação do status direto ao adicionar o primeiro histórico.
+- Admito ter usado IA para me lembrar de alguns conceitos sobre a mostra de listas, esqueci como mostrar apenas 1 item, 
+### Aprendizado
+- Lembrei que não preciso do `for` para mostar apenas um item do dicionário, apenas usar um `print` usando o nome do *projeto_encontrado* e a chave.
+## "Especificamente, utilizei a IA para:
+
+**Esclarecimento de Fluxo:** Compreender como o comando break e o continue afetam a execução dentro de loops aninhados com try/except.
+
+**Depuração de Persistência:** Entender por que as tuplas do Python são convertidas em listas no formato JSON e como realizar o desempacotamento desses dados na função de listagem.
+
+**Refatoração Lógica:** Validar a melhor forma de integrar a função de busca (buscador_projetos) com a função de atualização, garantindo a separação de responsabilidades."
+
+Realmente fiz o meu trabalho usando `JSON` e funções quase desde o começo, mas ao chegar nas aulas de JSON foi quando consegui estudar e ver mais afundo com a sua explicação como funciona este tipo de arquivo e o seu código no Python, posso dizer que sabia que existia e que devia usar JSON, mas não sabia com totalidade o que significava cada palavra do cogido:
+```python
+with open(DADOS, 'w', encoding='utf-8') as arquivo:
+    # O dump converte o objeto Python para o arquivo físico
+    json.dump(projetos_guardados, arquivo, indent=4, ensure_ascii=False)
+```   
+- DADOS: é o nome do arquivo que queremos carregar.
+- 'w': Abre em modo de escrita (write), que sobrescreve o arquivo com os dados atualizados.
+- encoding='utf-8': Padrão de codificação que suporta caracteres globais.
+- arquivo: Sería como a função with chama o arquivo dentro do seu escopo.
+- indent=4: Garante a legibilidade do arquivo JSON.
+- ensure_ascii=False: Permite a gravação de caracteres especiais (acentos).
+    
+## Observação de Integridade Acadêmica
+Em conformidade com a Resolução nº 274/2024 – Consun, declaro que utilizei ferramentas de IA como suporte para esclarecimento de conceitos lógicos e auxílio na documentação deste diário. Durante o processo, atentei-me ao conceito de Half-Life e às diretrizes de similaridade impostas pela disciplina, garantindo a autoria e a originalidade da lógica implementada no código final.

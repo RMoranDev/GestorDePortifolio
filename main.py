@@ -155,7 +155,12 @@ def opcao_list_project(lista):  # <-- dei um nome local à lista.
         print(f"{'Projeto:':<10} {projeto['nome']:>22}")
         print(f"{'Data:':<10} {projeto['data']:>22}")
         print(f"{'Status:':<10} {projeto['status']:>22}")
+        if projeto['historico']:
+            print(f"{'Histórico:':<10}")
+            for data, acao, nome in projeto['historico']:
+                print(f"  └─ {data} | {acao} | {nome}")
         print("▪ " * 30)
+
     while True:
         titulo("Opções")
         print("[1] Atualizar Projeto"
@@ -201,10 +206,9 @@ def opcao_update(lista):
     # Começa aqui se tiver projetos cadastrados.
     while True:
         titulo("Atualizar Projetos")
-        print("\n[1] Atualizar status"
-                "\n[2] Adicionar histórico."
-                "\n[3] Marcar como concluído."
-                "\n[4] Voltar ao menu principal.")
+        print("\n[1] Adicionar histórico."
+                "\n[2] Marcar como concluído."
+                "\n[3] Voltar ao menu principal.")
         opcao_usuario = input("\nSelecione uma opção: ").strip()
 
         if not opcao_usuario:
@@ -212,64 +216,104 @@ def opcao_update(lista):
             #titulo("Atualizar Projetos")
             continue
 
-        if not opcao_usuario in ["1", "2", "3", "4"]:
+        if not opcao_usuario in ["1", "2", "3"]:
             print("Opção invalida. Tente novamente.")
+            continue
 
         if opcao_usuario == "1":
-            projeto_encontrado = buscador_projetos(lista)  # Entra na função buscardor_projetos().
-
-            if projeto_encontrado: # Uma condicional que é executada somente se teve retorno de algo.
-                titulo("Atualizar Status")
-                print(f"Projeto: {projeto_encontrado['nome']} encontrado.")
-
-                # Menu dentro da opção status.
-                while True:
-                    print("[1] Não iniciado"
-                          "\n[2] Iniciado")
-                    novo_status = input("Selecione um novo status: ").strip()
-
-                    if novo_status not in ["1", "2"]: # Validamos primeiro com not.
-                        print(f"\nOpção inválida. Tente novamente.")
-                        continue
-
-                    status_mapeado = 'Não iniciado' if novo_status == "1" else 'Iniciado' # depois de validado o else sempre sera em teoria "2"
-
-                    if status_mapeado == projeto_encontrado['status']:
-                        print(f"O status já é '{status_mapeado}'.")
-                        print("-" * 60)
-                        continue
-
-                    projeto_encontrado['status'] = status_mapeado
-                    data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    historico = (data, "Projeto Iniciado", projeto_encontrado['nome'])
-                    projeto_encontrado['historico'].append(historico)
-                    salvar_dados()
-                    print(f"Status atualizado com sucesso!")
-                    input("Presione ENTER para voltar ao menu.")
-                    break
-
-        elif opcao_usuario == "2":
             projeto_encontrado = buscador_projetos(lista)
+
+            if projeto_encontrado['status'] == "Concluído":
+                print("Este projeto já foi finalizado.")
+                while True:
+                    resposta = input("Deseja exibirlo? [S/N] ").strip().upper()
+
+                    if not resposta in ["S", "N"]:
+                        print("ERRO. Responda apenas S ou N.")
+                        continue
+
+                    if resposta in "S":
+                        print()
+                        print(f"{'Projeto:':<10} {projeto_encontrado['nome']:>22}")
+                        print(f"{'Data:':<10} {projeto_encontrado['data']:>22}")
+                        print(f"{'Status:':<10} {projeto_encontrado['status']:>22}")
+                        print(f"{'Histórico:':<10}")
+                        for data, acao, nome in projeto_encontrado['historico']:  # Desempacotamento
+                            print(f"  └─ {data} | {acao} | {nome}")
+                        input("Pressione ENTER para voltar ao menu principal.")
+                        return
+                    elif resposta in "N":
+                        return
             if projeto_encontrado:
-                print(f"Projeto: {projeto_encontrado['nome']} encontrado.")
+                print(f"Projeto: '{projeto_encontrado['nome']}' encontrado.")
                 # Menu dentro da opção histórico.
                 while True:
                     titulo("Adicionado Notas")
                     print("[0] Voltar ao menu anterior")
-                    print(f"Digite uma anotação")
-                    anotacao = input("")
+
+                    print(f"Digite uma anotação:")
+                    anotacao = input("").capitalize().strip()
                     if anotacao == "0":
                         break
+                    if not anotacao:
+                        print("Este campo não pode ficar vazio.")
+                        print("-" * 60)
+                        continue
+                    while True:
+                        titulo("Adicionado Notas")
+                        print(f"Digite o nome do desenvolvedor:")
+                        nome_desenvolvedor = input("").title().strip()
+                        if not nome_desenvolvedor:
+                            print("Este campo não pode ficar vazio.")
+                            print("-" * 60)
+                            continue
+                        break
+
+                    if projeto_encontrado['status'] == "Não iniciado":
+                        projeto_encontrado['status'] = "Iniciado"
+
                     data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    historico = (data, anotacao, projeto_encontrado['nome'])
+                    historico = (data, anotacao, nome_desenvolvedor)
                     projeto_encontrado['historico'].append(historico)
                     salvar_dados()
-                    print(f"Projeto '{projeto_encontrado['nome']}' finalizado com sucesso!")
+                    print(f"Anotação salva com sucesso!")
                     input("Pressione ENTER para voltar ao menu.")
+                    break
 
-        elif opcao_usuario == "3":
+        elif opcao_usuario == "2":
             projeto_encontrado = buscador_projetos(lista, "Marcar como Concluído")
+            print(f"Projeto '{projeto_encontrado['nome']}' encontrado com sucesso!")
+            if projeto_encontrado['status'] == "Concluído":
+                print("Este projeto já foi finalizado.")
+                while True:
+                    resposta = input("Deseja exibirlo? [S/N] ").strip().upper()
+
+                    if not resposta in ["S", "N"]:
+                        print("ERRO. Responda apenas S ou N.")
+                        continue
+
+                    if resposta in "S":
+                        print()
+                        print(f"{'Projeto:':<10} {projeto_encontrado['nome']:>22}")
+                        print(f"{'Data:':<10} {projeto_encontrado['data']:>22}")
+                        print(f"{'Status:':<10} {projeto_encontrado['status']:>22}")
+                        print(f"{'Histórico:':<10}")
+                        for data, acao, nome in projeto_encontrado['historico']:  # Desempacotamento
+                            print(f"  └─ {data} | {acao} | {nome}")
+                        input("Pressione ENTER para voltar ao menu principal.")
+                        return
+                    elif resposta in "N":
+                        return
             if projeto_encontrado:
+                while True:
+                    resposta = input("Deseja realmente concluir este projeto? [S/N] ").strip().upper()
+                    if not resposta in ["S", "N"]:
+                        print("ERRO. Responda apenas S ou N.")
+                        continue
+                    if resposta in "S":
+                        break
+                    elif resposta in "N":
+                        return
                 projeto_encontrado['concluido'] = True
                 projeto_encontrado['status'] = "Concluído"
                 # Isto "Automatiza" o histórico.
@@ -281,7 +325,7 @@ def opcao_update(lista):
                 input("Presione ENTER para voltar ao menu.")
                 continue
 
-        elif opcao_usuario == "4":
+        elif opcao_usuario == "3":
             return
 
 
