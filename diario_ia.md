@@ -134,6 +134,8 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Analisar o projeto para entrega final.
 ### O que fiz
 - Refatorei a função `STATS`, achei um jeito mais certo de fazer ao invés de repetir código.
+### Dificuldades
+- Teve dificuldades na implementação da data do último projeto concluído, teve que pesquisar.
 ### Aprendizado
 - Pesquisei sobre as funções `strptime` e `strftime`, esta última transforma objeto em texto e a outra ao contrário.
 ## "Especificamente, utilizei a IA para:

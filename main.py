@@ -64,8 +64,8 @@ def buscador_projetos(lista, operacao="Buscando Projetos"):
         print("Tente novamente.")
 
 
-def opcao_add(lista):
-    print("\n" * 2)# <-- dei um nome local à lista.
+def opcao_add(lista): # <-- dei um nome local à lista.
+    print("\n" * 2)
     titulo('Cadastro de Projetos')
     numero_projetos = 0
     while True: # Aqui definimos o número de projetos.
@@ -237,7 +237,7 @@ def opcao_update(lista):
                 print(f"\nProjeto '{projeto_encontrado['nome']}' encontrado.")
                 print("Este projeto já foi finalizado.")
                 while True:
-                    resposta = input("Deseja exibirlo? [S/N] ").strip().upper()
+                    resposta = input("Deseja exibi-lo? [S/N] ").strip().upper()
 
                     if not resposta in ["S", "N"]:
                         print("ERRO. Responda apenas S ou N.")
@@ -373,7 +373,7 @@ def opcao_delete(lista):
                     print("TENTE NOVAMENTE!")
                     continue
                 elif confirmacao == "s":
-                    projetos_guardados.remove(projeto_encontrado)
+                    lista.remove(projeto_encontrado)
                     salvar_dados()
                     print("Removendo Projeto...")
                     sleep(1)
