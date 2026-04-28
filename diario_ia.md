@@ -15,7 +15,7 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 - Aprendí que o `break` finaliza apenas o `while` no qual está inserido.
 ## 2026-03-25
 ### Objetivo do Dia
-- Criar menu de opcões mais interativo.
+- Criar menu de opções mais interativo.
 ### O que fiz
 - Criei uma interface numerada (1. add, 2. list Projects, 3. About, 4. Quit).
 - Notei que um `break` estava dando erro dentro do `for`, realoquei para dentro do `else`.
@@ -111,29 +111,48 @@ Realoquei o `print(f"ATÉ LOGO")` que ficou fora do loop para dentro do comando 
 ## 2026-04-22
 ### Objetivo do Dia
 - Refatorar função de listar, esta faltando adicionar o histórico.
+- Professor pediu para usar o `try/except` com `json.JSONDecodeError`. Deu certo, mas na hora que carreguei um novo projeto pedí tudo o anterior. Então estou pensando em implementar um tipo de backup
+### Dificuldades
+- Não sei fazer a implementação de backup.
 ### O que fiz
 - formatei a lista de histórico para ficar melhor exibida na tela.
 - Eliminei a possibilidade de atualizar o status do projeto manualmente e fiz a automação do status direto ao adicionar o primeiro histórico.
 - Admito ter usado IA para me lembrar de alguns conceitos sobre a mostra de listas, esqueci como mostrar apenas 1 item, 
 ### Aprendizado
 - Lembrei que não preciso do `for` para mostar apenas um item do dicionário, apenas usar um `print` usando o nome do *projeto_encontrado* e a chave.
+## 2026-04-23
+### Objetivo do Dia
+- Revisão e tentar adicionar a função `Stats`.
+### O que fiz
+- percebi um erro na função `add`, na hora de guardar mais de um projeto, por exemplo, 3 ao colocar o nome ela cadastrava os 3 projetos com o mesmo nome. Teve que refatorar a função.
+- teve que olhar o github para relembrar como estava o código antes na branch main.
+- troquei o `-` do `for` que adiciona projetos por uma variável iterável `i` para ter um contador e deixar mais bonito o programa.
+### Aprendizado
+- não conhecia a função `any()`, achei melhor que o meu booleano manual, uma linha só de código. Achei melhor e mais direta para verificar valores num dicionário.
+## 2026-04-23
+### Objetivo do Dia
+- Analisar o projeto para entrega final.
+### O que fiz
+- Refatorei a função `STATS`, achei um jeito mais certo de fazer ao invés de repetir código.
+### Aprendizado
+- Pesquisei sobre as funções `strptime` e `strftime`, esta última transforma objeto em texto e a outra ao contrário.
 ## "Especificamente, utilizei a IA para:
 
 **Esclarecimento de Fluxo:** Compreender como o comando break e o continue afetam a execução dentro de loops aninhados com try/except.
 
 **Depuração de Persistência:** Entender por que as tuplas do Python são convertidas em listas no formato JSON e como realizar o desempacotamento desses dados na função de listagem.
 
-**Refatoração Lógica:** Validar a melhor forma de integrar a função de busca (buscador_projetos) com a função de atualização, garantindo a separação de responsabilidades."
+**Refatoração Lógica:** Validar a melhor forma de integrar a função de busca (buscador_projetos) com a função de atualização, garantindo a separação de responsabilidades.
 
-Realmente fiz o meu trabalho usando `JSON` e funções quase desde o começo, mas ao chegar nas aulas de JSON foi quando consegui estudar e ver mais afundo com a sua explicação como funciona este tipo de arquivo e o seu código no Python, posso dizer que sabia que existia e que devia usar JSON, mas não sabia com totalidade o que significava cada palavra do cogido:
+Realmente fiz o meu trabalho usando `JSON` e funções quase desde o começo usando conhecimentos adquiridos de videos na internet e IA, mas ao chegar nas aulas de JSON foi quando consegui estudar e ver mais afundo com a sua explicação como funciona este tipo de arquivo e o seu código no Python, posso dizer que sabia que existia e que devia usar JSON, mas não sabia com totalidade o que significava cada palavra do cogido:
 ```python
 with open(DADOS, 'w', encoding='utf-8') as arquivo:
     # O dump converte o objeto Python para o arquivo físico
     json.dump(projetos_guardados, arquivo, indent=4, ensure_ascii=False)
 ```   
 - DADOS: é o nome do arquivo que queremos carregar.
-- 'w': Abre em modo de escrita (write), que sobrescreve o arquivo com os dados atualizados.
-- encoding='utf-8': Padrão de codificação que suporta caracteres globais.
+- 'w': abre em modo de escrita (write), que sobrescreve o arquivo com os dados atualizados.
+- encoding='utf-8': padrão de codificação que suporta caracteres globais.
 - arquivo: Sería como a função with chama o arquivo dentro do seu escopo.
 - indent=4: Garante a legibilidade do arquivo JSON.
 - ensure_ascii=False: Permite a gravação de caracteres especiais (acentos).

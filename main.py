@@ -2,7 +2,6 @@ import sys
 from time import sleep
 from datetime import datetime
 import json
-import os
 
 
 DADOS = 'dados.json'  # variavel global em maiúscula, melhor para manutenção depois.
@@ -12,10 +11,15 @@ DADOS = 'dados.json'  # variavel global em maiúscula, melhor para manutenção 
 
 # função para verificar e carregar os dados
 def carregar_dados():
-    if os.path.exists(DADOS):
+    try:
         with open(DADOS, 'r', encoding='utf-8') as arquivo:
             return json.load(arquivo)
-    return []  # senão existe o arquivo retorna uma lista vazia.
+    except FileNotFoundError:
+        return [] # se o arquivo não existe retorna uma lista vazia.
+
+    except json.JSONDecodeError:
+        print(f"AVISO: O arquivo '{DADOS}' está corrompido. Iniciando lista vazia.")
+        return [] # Arquivo corrompido retorna lista vazia também.
 
 
 def titulo(texto):
@@ -28,12 +32,15 @@ def mostrar_menu():
     print("-=" * 30)
     print(f"{'GESTOR DE PROJETOS':^60}")
     print("-=" * 30)
-    print("[ 1 ] Adicionar Projetos"
-          "\n[ 2 ] Listar Projetos"
-          "\n[ 3 ] Atualizar Projetos"
-          "\n[ 4 ] Apagar Projetos"
-          "\n[ 5 ] Acerca de"
-          "\n[ 6 ] Sair")
+    print("[ 1 ] Adicionar Projetos",
+          "\n[ 2 ] Listar Projetos",
+          "\n[ 3 ] Atualizar Projetos",
+          "\n[ 4 ] Apagar Projetos",
+          "\n[ 5 ] Estatísticas",
+          "\n[ 6 ] Acerca de",
+          "\n[ 7 ] Sair")
+    escolha = input("\nDigite um comando aqui: ").strip()
+    return escolha
 
 
 def buscador_projetos(lista, operacao="Buscando Projetos"):
@@ -57,55 +64,56 @@ def buscador_projetos(lista, operacao="Buscando Projetos"):
         print("Tente novamente.")
 
 
-def opcao_add(lista):  # <-- dei um nome local à lista.
+def opcao_add(lista):
+    print("\n" * 2)# <-- dei um nome local à lista.
     titulo('Cadastro de Projetos')
     numero_projetos = 0
-    while True:
-            entrada= input("Quantos projetos deseja cadastrar?"
-                                        "\n[MÁXIMO: 10] ").strip()
-            if not entrada:
-                print(f"ERRO. Este campo não pode estar vazio.")
-                print("-" * 60)
-                continue
-            try: # trata o erro deste bloco.
-                numero_projetos = int(entrada)
-                if 0 < numero_projetos <= 10: # Condição de saída = True.
-                    break
-                else:
-                    print(f"Valor inválido.") # Só é executado se a condição for False.
-                    print("-" * 60)
-            except ValueError:  # ValueError é um tipo de erro específico.
-                print(f"ERRO. Digite apenas números inteiros.")
-                print("-" * 60)
-    while True:
-        nome_projeto = input("Digite o nome do projeto: ").strip().title()
-        if not nome_projeto: # Verifica se esta vazio.
-            print("Erro: O nome não pode ser vazio.")
+    while True: # Aqui definimos o número de projetos.
+        print("[0] para voltar ao menu principal.")
+        entrada= input("Quantos projetos deseja cadastrar?" # Peguei o dado como str para poder tratar como vazio.
+                                    "\n[MÁXIMO: 10] ").strip()
+        if entrada == "0":
+            return
+        if not entrada:
+            print(f"ERRO. Este campo não pode estar vazio.")
+            print("-" * 60)
             continue
-
-        existe = False
-        for p in lista: # Percorre a lista e verifica se já existe um projeto com esse nome.
-            if p['nome'] == nome_projeto:
-                existe = True
+        try: # trata o erro deste bloco.
+            numero_projetos = int(entrada) # A entrada str aqui vora int.
+            if 0 < numero_projetos <= 10: # Condição de saída = True.
                 break
-        if existe:
-            print(f"\nERRO: O projeto '{nome_projeto}' já existe! Escolha outro nome.")
-        else:
-            break # Senao existe sai do while.
+            else:
+                print(f"Valor inválido.") # Só é executado se a condição for False.
+                print("-" * 60)
+        except ValueError:  # ValueError é um tipo de erro específico.
+            print(f"ERRO. Digite apenas números inteiros.")
+            print("-" * 60)
 
-    # Cadastro dos projetos.
+    for i in range(numero_projetos):
+        while True: # while dentro do for para o 'continue' funcionar.
+            print(f"\n--- Cadastro do Projeto {i + 1}/{numero_projetos} ---")
+            nome_projeto = input("Digite o nome do projeto: ").strip().title()
 
-    for _ in range(numero_projetos):  # Dicionário dentro da função.
-        projeto = {
-            "nome": nome_projeto,
-            "concluido": False,
-            "historico": [],
-            "data": datetime.now().strftime("%d/%m/%Y - %H:%M:%S"),
-            "status": "Não iniciado"
-        }
-        print(f"Projeto: '{projeto['nome']}' cadastrado com sucesso.")
-        print("-" * 60)
-        lista.append(projeto)  # guarda os projetos do dicionário local na lista.
+            if not nome_projeto: # Verifica se esta vazio.
+                print("Erro: O nome não pode ser vazio.")
+                continue
+
+            if any(p['nome'] == nome_projeto for p in lista): # Esta linha verifica se já existe um projeto com o mesmo nome do que tento cadastrar.
+                print(f"ERRO: O projeto '{nome_projeto}' já existe! Escolha outro nome.")
+                continue
+
+      # Dicionário dentro da função.
+            projeto = {
+                "nome": nome_projeto,
+                "concluido": False,
+                "historico": [],
+                "data": datetime.now().strftime("%d/%m/%Y - %H:%M:%S"),
+                "status": "Não iniciado"
+            }
+            lista.append(projeto) # guarda os projetos do dicionário local na lista.
+            print(f"Projeto: '{nome_projeto}' cadastrado com sucesso.")
+            print("-" * 60)
+            break # Este break sai do while e volta para o 'for' e começa seguinte cadastro.
     salvar_dados()  # chama a função e salva os dados no arquivo ao final para poupar recursos.
     while True:
         try: # Trata o erro deste bloco.
@@ -129,10 +137,9 @@ def opcao_add(lista):  # <-- dei um nome local à lista.
             print("-" * 60)
 
 
-def opcao_list_project(lista):  # <-- dei um nome local à lista.
+def opcao_list(lista):  # <-- dei um nome local à lista.
     titulo("Lista de Projetos")
     if not lista:
-        print("-" * 60)
         print("Desculpe, sem projetos cadastrados.")
         while True:
             resposta_usuario = input("Quer adicionar um novo projeto agora? [S/N] ").strip().upper()
@@ -168,7 +175,7 @@ def opcao_list_project(lista):  # <-- dei um nome local à lista.
               "\n[3] Voltar ao menu anterior")
         resposta_menu = input("O que deseja fazer? ").strip()
         if not resposta_menu:
-            print("Desculpe este campo não pode estar vazio.")
+            print("Desculpe, este campo não pode estar vazio.")
             print("-" * 60)
             continue
         if resposta_menu == "1":
@@ -213,7 +220,6 @@ def opcao_update(lista):
 
         if not opcao_usuario:
             print("ERRO. Deve selecionar uma opção.")
-            #titulo("Atualizar Projetos")
             continue
 
         if not opcao_usuario in ["1", "2", "3"]:
@@ -223,7 +229,12 @@ def opcao_update(lista):
         if opcao_usuario == "1":
             projeto_encontrado = buscador_projetos(lista)
 
+            if projeto_encontrado is None:
+                print("Busca cancelada.")
+                continue
+
             if projeto_encontrado['status'] == "Concluído":
+                print(f"\nProjeto '{projeto_encontrado['nome']}' encontrado.")
                 print("Este projeto já foi finalizado.")
                 while True:
                     resposta = input("Deseja exibirlo? [S/N] ").strip().upper()
@@ -244,6 +255,7 @@ def opcao_update(lista):
                         return
                     elif resposta in "N":
                         return
+
             if projeto_encontrado:
                 print(f"Projeto: '{projeto_encontrado['nome']}' encontrado.")
                 # Menu dentro da opção histórico.
@@ -272,7 +284,7 @@ def opcao_update(lista):
                     if projeto_encontrado['status'] == "Não iniciado":
                         projeto_encontrado['status'] = "Iniciado"
 
-                    data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    data = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                     historico = (data, anotacao, nome_desenvolvedor)
                     projeto_encontrado['historico'].append(historico)
                     salvar_dados()
@@ -282,7 +294,7 @@ def opcao_update(lista):
 
         elif opcao_usuario == "2":
             projeto_encontrado = buscador_projetos(lista, "Marcar como Concluído")
-            print(f"Projeto '{projeto_encontrado['nome']}' encontrado com sucesso!")
+            print(f"\nProjeto '{projeto_encontrado['nome']}' encontrado.")
             if projeto_encontrado['status'] == "Concluído":
                 print("Este projeto já foi finalizado.")
                 while True:
@@ -373,6 +385,57 @@ def opcao_delete(lista):
                     break
 
 
+def opcao_stats(lista):
+    if not lista:
+        print("-" * 60)
+        print(f"Nenhum projeto cadastrado")
+        while True:
+            resposta_usuario = input("Quer adicionar um novo projeto agora? [S/N] ").strip().upper()
+
+            if not resposta_usuario:
+                print("Este campo não pode estar vazio.")
+                continue
+            if resposta_usuario in "S":
+                opcao_add(lista)
+                return
+            elif resposta_usuario in "N":
+                return
+            else:
+                print("-" * 60)
+                print(f"ERRO. Responda apenas S ou N.")
+
+    titulo("Estatísticas")
+    print(f"Total de Projetos: {len(lista):>4}")
+
+    projetos_em_andamento = 0
+    projetos_concluidos = 0
+    ultima_data_projeto = None
+
+    for projeto in lista: # Um for é suficiente para verificar várias chaves.
+        if projeto['status'] == 'Iniciado':
+            projetos_em_andamento += 1
+
+        elif projeto['status'] == 'Concluído':
+            projetos_concluidos += 1
+
+            data_atual = datetime.strptime(projeto['data'], '%d/%m/%Y - %H:%M:%S') # Aqui transforma a data num objeto.
+            if ultima_data_projeto is None or data_atual > ultima_data_projeto:
+                ultima_data_projeto = data_atual
+
+    print(f"Projetos Iniciados: {projetos_em_andamento:>4}")
+    print(f"Projetos finalizados: {projetos_concluidos:>4}")
+
+    if ultima_data_projeto:
+        data_formatada = ultima_data_projeto.strftime('%d/%m/%Y') # Formata a saída para ficar somente a data.
+        print(f"Último projeto finalizado em: {data_formatada}")
+    else:
+        print("Última projeto finalizado em: 'Nenhum projeto finalizado'.")
+
+
+
+    input("Pressione ENTER para voltar ao menu.")
+
+
 def opcao_about():
     print(f"{'---------- Version 1.1 ----------':^60}")
     print("Gestor de Projetos v1.0."
@@ -401,21 +464,21 @@ projetos_guardados = carregar_dados() # Lista principal.
 
 # Começo do programa.
 while True:
-
-    mostrar_menu()
-    comando = input("Digite um comando aqui: ").lower()  # .lower() no começo para evitar repetir o código.
+    comando = mostrar_menu()
 
     if comando == "1":
         opcao_add(projetos_guardados)  # aqui entrega a lista real na hora de chamar a função.
     elif comando == "2":
-        opcao_list_project(projetos_guardados)
+        opcao_list(projetos_guardados)
     elif comando == "3":
         opcao_update(projetos_guardados)
     elif comando == "4":
         opcao_delete(projetos_guardados)
     elif comando == "5":
-        opcao_about()
+        opcao_stats(projetos_guardados)
     elif comando == "6":
+        opcao_about()
+    elif comando == "7":
         opcao_quit()
     else:
         print("-" * 60)
